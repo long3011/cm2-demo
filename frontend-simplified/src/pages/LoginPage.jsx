@@ -1,32 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useLogin from '../hooks/useLogin';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { login, loading } = useLogin();
   const navigate = useNavigate();
 
-  const logInUser = async (logIn) => {
-    try {
-      const res = await fetch("/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(logIn),
-      });
-      if (!res.ok) {
-        throw new Error("Failed to Log In");
-      }
-      return true;
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred while Log In.");
-      return false;
-    }
-  };
-
+  
   const logInForm = async (e) => {
     e.preventDefault();
 
@@ -35,7 +19,7 @@ function LoginPage() {
       password: password
     };
 
-    const success = await logInUser(logIn);
+    const success = await login(logIn);
     if (success) {
       toast.success("Logged In Successfully");
       navigate("/jobs");
