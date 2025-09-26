@@ -33,8 +33,12 @@ const AddJobPage = () => {
       membership_status: membershipStatus
 
     };
-
    
+if (!email.includes("@") || (!email.endsWith(".com") && !email.endsWith(".fi"))) {
+  toast.error("Please enter a valid email that include @ and ending in .com or .fi");
+  return;
+}
+
   const success = await signup(newUser);
 
   if (success) {
@@ -42,7 +46,7 @@ const AddJobPage = () => {
     navigate("/");
   }
 };
-
+  
   
 
   return (
@@ -151,11 +155,9 @@ const AddJobPage = () => {
                 Date Of birth
               </label>
               <input
-                type="text"
+                type="date"
                 id="dateOfBirth"
-                name="dateOfBirth"
                 className="border rounded w-full py-2 px-3"
-                placeholder="01/01/2000"
                 value={dateOfBirth}
                 onChange={(e) => setDateOfBirth(e.target.value)}
               />
