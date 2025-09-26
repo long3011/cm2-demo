@@ -29,9 +29,12 @@ const getJobById = async (req, res) => {
     return res.status(400).json({ message: "Invalid job ID" });
   }
     try {
-    const job = await Job.findById(id);
-    if (job) {
-      res.status(200).json(job);
+    const limit = parseInt(req.query._limit);
+    const jobs = limit 
+    ? await Job.find({}).sort({ createdAt: -1 }).limit(limit)
+    : await Job.find({}).sort({ createdAt: -1 });
+    if (jobs) {
+      res.status(200).json(jobs);
     } else {
       res.status(404).json({ message: "Job not found" });
     }

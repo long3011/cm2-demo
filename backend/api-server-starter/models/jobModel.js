@@ -24,6 +24,20 @@ jobSchema.set('toJSON', {
     return ret;
   }
 });
+//virtuals: true
+//return virtual properties when document is converted to JSON
+
+//transform: (doc, ret) => { ... } is a function that modifies the output
+//when a document is converted to JSON using toJSON() or JSON.stringify().
+
+//ret.id = ret._id; creates a new id property on the output object,
+//copying the value from the MongoDB-specific _id field.
+
+//delete ret._id; removes the original _id property from the output,
+//so only id remains.
+
+//delete ret.__v; removes the __v property,
+//which is used internally by Mongoose for versioning and is usually not needed by API consumers.
 
 const Job = mongoose.model('Job', jobSchema);
 
