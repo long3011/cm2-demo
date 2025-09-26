@@ -20,6 +20,9 @@ const Navbar = () => {
             </NavLink>
             <div className='md:ml-auto'>
               <div className='flex space-x-2'>
+                <NavLink to='/signup' className={linkClass}>
+                  Sign up
+                </NavLink>
                 <NavLink to='/' className={linkClass}>
                   Home
                 </NavLink>
