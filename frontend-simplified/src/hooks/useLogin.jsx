@@ -22,6 +22,9 @@ const useLogin = () => {
             if (!res.ok) {
               throw new Error("Failed to Log In");
             }
+
+            if (data.token) localStorage.setItem("token", data.token);
+            if (data.user) localStorage.setItem("user", JSON.stringify(data.user));  // AI recommended to add token and user to stroage      
        
             navigate("/");
           } catch (error) {
@@ -29,7 +32,7 @@ const useLogin = () => {
             toast.error("An error occurred while Log In.");
             return false;
           }
-        };
+    };
 
 
     

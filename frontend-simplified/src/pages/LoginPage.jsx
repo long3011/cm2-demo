@@ -10,7 +10,7 @@ function LoginPage() {
   const { login, loading } = useLogin();
   const navigate = useNavigate();
 
-  
+
   const logInForm = async (e) => {
     e.preventDefault();
 
@@ -23,7 +23,9 @@ function LoginPage() {
     if (success) {
       toast.success("Logged In Successfully");
       navigate("/jobs");
-    }
+    } else {
+        toast.error("Invalid credentials. Please try again.");   // Made the error handling with AI
+      }
   };
 
   return (
@@ -56,9 +58,14 @@ function LoginPage() {
                 />
               </div>
 
-              <button type="submit" className="bg-indigo-600 text-white py-2 px-4 rounded mt-4 w-full">
-                Log In
+              <button 
+                type="submit" 
+                className={`bg-indigo-600 text-white py-2 px-4 rounded mt-4 w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} 
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Log In"} {/* Showing th loading state to prevent multiple submissions */}
               </button>
+
             </form>
           </div>
         </div>

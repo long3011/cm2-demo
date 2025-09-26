@@ -33,3 +33,35 @@ if (!email.includes("@") || (!email.endsWith(".com") && !email.endsWith(".fi")))
           value={dateOfBirth}
           onChange={(e) => setDateOfBirth(e.target.value)}
         />
+
+
+---------------------------------------------
+
+Log In:
+
+1. Handle Loading State in UI
+
+If loading is coming from useLogin, disabling the button while logging in to prevent multiple submissions would be recommended:
+
+The button in jsx elemnet:
+
+  type="submit" 
+  className={`bg-indigo-600 text-white py-2 px-4 rounded mt-4 w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} 
+  disabled={loading}
+
+  {loading ? "Logging in..." : "Log In"}
+
+
+
+2. Better Error Handling
+
+If useLogin can return errors, display them using toast.error:
+
+const success = await login(logIn);
+if (success) {
+  toast.success("Logged In Successfully");
+  navigate("/jobs");
+} else {
+  toast.error("Invalid credentials. Please try again.");
+}
+
