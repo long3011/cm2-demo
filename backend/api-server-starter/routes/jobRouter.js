@@ -5,7 +5,7 @@ const {
     updateJob,
     deleteJob
 } = require("../controllers/jobControllers");
-const {requireAuth} = require("../middleware/authMiddleware");
+const requireAuth = require("../middleware/requireAuth");
 const express = require("express");
 const router = express.Router();
 
