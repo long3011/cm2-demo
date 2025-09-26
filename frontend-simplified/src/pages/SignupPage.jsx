@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useSignup from "../hooks/useSignup";
 
 const AddJobPage = () => {
   const [name, setName] = useState("");
@@ -12,31 +13,10 @@ const AddJobPage = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [membershipStatus, setMembershipStatus] = useState("Employer");
  
+  
+  const { signup, loading } = useSignup();
+
   const navigate = useNavigate();
-
-
-  const addUser = async(newUser) => {
-
-    try{
-    const response = await fetch("/api/users/signup",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify(newUser),
-    })
-    const data = await response.json()
-    console.log("server response", data)
-    if (!response.ok){
-      throw new Error("Failed to add user")
-    }
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred while adding the user.");
-      return false;
-    }
-    return true;
-  }
 
 
   
@@ -55,7 +35,7 @@ const AddJobPage = () => {
     };
 
    
-  const success = await addUser(newUser);
+  const success = await signup(newUser);
 
   if (success) {
     toast.success("User Added Successfully");
