@@ -8,32 +8,62 @@ const AddJobPage = () => {
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("Male");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [membershipStatus, setMembershipStatus] = useState("");
+  const [membershipStatus, setMembershipStatus] = useState("Employer");
  
   const navigate = useNavigate();
 
+
+  const addUser = async(newUser) => {
+
+    try{
+    const response = await fetch("/api/users/signup",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(newUser),
+    })
+    const data = await response.json()
+    console.log("server response", data)
+    if (!response.ok){
+      throw new Error("Failed to add user")
+    }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while adding the user.");
+      return false;
+    }
+    return true;
+  }
+
+
   
-  const submitForm = (e) => {
+  const submitForm = async(e) => {
     e.preventDefault();
 
     const newUser = {
       name,
       email,
       password,
+      phone_number:phoneNumber,
       gender,
-      dateOfBirth,
-      membershipStatus
+      date_of_birth: dateOfBirth,
+      membership_status: membershipStatus
 
     };
 
-    addUser(newUser);
+   
+  const success = await addUser(newUser);
 
+  if (success) {
     toast.success("User Added Successfully");
+    navigate("/");
+  }
+};
 
-    return navigate("/");
-  };
+  
 
   return (
     <section className="bg-indigo-50">
@@ -103,9 +133,9 @@ const AddJobPage = () => {
                 Phone Number
               </label>
             <input
-                id="password"
-                name="password"
-                type="password"
+                id="phonenumber"
+                name="phonenumber"
+                type="text"
                 className="border rounded w-full py-2 px-3"
                 rows="4"
                 placeholder=" +358 123456789"
